@@ -9,7 +9,6 @@ import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.*
 import androidx.annotation.RequiresApi
@@ -35,13 +34,10 @@ class MainActivity : AppCompatActivity() {
     lateinit var tvPressure: TextView
     lateinit var tvHumidity: TextView
     lateinit var tvSpeed: TextView
-    lateinit var tvDeg: TextView
-    lateinit var tvGust: TextView
-    lateinit var tvAll: TextView
     lateinit var tvVisibility: TextView
     lateinit var tvCityName: TextView
     lateinit var tvDescription: TextView
-    lateinit var spinner: Spinner
+    lateinit var alert: EditText
     lateinit var btnOK: Button
 
     lateinit var layoutWeather: LinearLayout
@@ -65,29 +61,13 @@ class MainActivity : AppCompatActivity() {
         tvPressure = findViewById(R.id.tvPressure)
         tvHumidity = findViewById(R.id.tvHumidity)
         tvSpeed = findViewById(R.id.tvSpeed)
-        tvDeg = findViewById(R.id.tvDeg)
-        tvAll = findViewById(R.id.tvAll)
         tvVisibility = findViewById(R.id.tvVisibility)
         tvDescription = findViewById(R.id.tvDescription)
-        tvGust = findViewById(R.id.tvGust)
         layoutWeather = findViewById(R.id.layoutWeather)
         layoutWeather_ = findViewById(R.id.layoutWeather_)
         btnOK = findViewById(R.id.btnOK)
 
-        spinner = findViewById(R.id.spinner)
-        val property = arrayOf("Temperature","Pressure","Speed","Humidity","")
-        val adapter = ArrayAdapter(this, android.R.layout.simple_list_item_1 , property)
-        spinner.adapter = adapter
-
-        spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
-            override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
-                val selectedItem = property[p2]
-                Toast.makeText(this@MainActivity, "selectedItem : $selectedItem", Toast.LENGTH_LONG).show()
-            }
-
-            override fun onNothingSelected(p0: AdapterView<*>?) {
-            }
-        }
+        alert = findViewById(R.id.alert)
 
         btnSearch.setOnClickListener {
             val city = editCityName.text.toString()
@@ -117,18 +97,15 @@ class MainActivity : AppCompatActivity() {
                 if(response.isSuccessful) {
                     val result = response.body()
 
-                    tvTemperature.text = "${result?.main?.temp}"
-                    tvTemperatureMax.text = "${result?.main?.temp_max}Max °"
-                    tvTemperatureMin.text = "${result?.main?.temp_min}Min °"
-                    tvPressure.text = "${result?.main?.pressure}Pa"
-                    tvHumidity.text = "${result?.main?.humidity}"
-                    tvSpeed.text = "${result?.wind?.speed}"
+                    tvTemperature.text = "${result?.main?.temp}°C"
+                    tvTemperatureMax.text = "Max°: ${result?.main?.temp_max}"
+                    tvTemperatureMin.text = "Min°: ${result?.main?.temp_min}"
+                    tvPressure.text = "Pressure: ${result?.main?.pressure}Pa"
+                    tvHumidity.text = "Humidity: ${result?.main?.humidity}"
+                    tvSpeed.text = "Speed: ${result?.wind?.speed}"
                     tvDescription.text = "${result?.weather?.get(0)?.description}"
-                    tvDeg.text = "${result?.wind?.deg}"
-                    tvGust.text = "${result?.wind?.gust}"
-                    tvAll.text = "${result?.clouds?.all}"
                     tvCityName.text = result?.name
-                    tvVisibility.text =  "${result?.visibility}"
+                    tvVisibility.text = "Visibility: ${result?.visibility}"
 
                     Picasso.get().load("https://openweathermap.org/img/w/${result?.weather?.get(0)?.icon}.png").into(imageWeather)
 
@@ -148,7 +125,6 @@ class MainActivity : AppCompatActivity() {
     @RequiresApi(Build.VERSION_CODES.M)
     fun scheduleNotification(view:View)
     {
-        println("entry")
         Toast.makeText(this@MainActivity, "Its toast!", Toast.LENGTH_SHORT).show();
         val intent = Intent(applicationContext, Notification::class.java)
 
@@ -159,19 +135,37 @@ class MainActivity : AppCompatActivity() {
             PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
         )
 
-        val a = propertiesEditText.text.toString()
-        val b = tvTemperature.text.toString()
-
-
-        if(a >= b){
+        if(propertiesEditText.text.toString() < tvTemperature.text.toString() && alert.text.toString() == "HOT"){
             val alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
-            val time = 1
+            val time = 5
             alarmManager.setExactAndAllowWhileIdle(
                 AlarmManager.RTC_WAKEUP,
                 time.toLong(),
                 pendingIntent
             )
-            showAlert("titre", "message")
+            showAlert(tvCityName.text.toString(), "Too Hot")
+        }
+        if(propertiesEditText.text.toString() > tvTemperature.text.toString() && alert.text.toString() == "COLD"){
+            val alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
+            val time = 5
+            alarmManager.setExactAndAllowWhileIdle(
+                AlarmManager.RTC_WAKEUP,
+                time.toLong(),
+                pendingIntent
+            )
+            showAlert(tvCityName.text.toString(), "Too Cold")
+
+        }
+        if(propertiesEditText.text.toString() <= tvHumidity.text.toString()&& alert.text.toString() == "Humidity"){
+            val alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
+            val time = 5
+            alarmManager.setExactAndAllowWhileIdle(
+                AlarmManager.RTC_WAKEUP,
+                time.toLong(),
+                pendingIntent
+            )
+            showAlert(tvCityName.text.toString(), "Too Humid")
+
         }
 
     }

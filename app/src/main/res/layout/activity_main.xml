@@ -24,19 +24,36 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:ignore="TouchTargetSizeCheck" />
 
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="13dp" />
+
     <Button
         android:id="@+id/btnSearch"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@color/purple_500"
+        android:background="@color/teal_200"
         android:text="Search"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <Spinner
-        android:id="@+id/spinner"
+    <EditText
+        android:id="@+id/alert"
+        android:layout_width="379dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="20dp"
+        android:ems="10"
+        android:hint="Alert"
+        android:inputType="textPersonName"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.047"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/spinner" />
+
+    <Space
         android:layout_width="match_parent"
-        android:layout_height="36dp" />
+        android:layout_height="26dp" />
 
     <EditText
         android:id="@+id/propertiesEditText"
@@ -45,7 +62,7 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="20dp"
         android:ems="10"
-        android:hint="Properties"
+        android:hint="..."
         android:inputType="textPersonName"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.047"
@@ -56,8 +73,9 @@
         android:id="@+id/btnOK"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/teal_200"
         android:onClick="scheduleNotification"
-        android:text="OK" />
+        android:text="NEXT" />
 
     <LinearLayout
         android:id="@+id/layoutWeather"
@@ -84,13 +102,13 @@
 
         <TextView
             android:id="@+id/tvDescription"
-            android:layout_width="wrap_content"
+            android:layout_width="122dp"
             android:layout_height="wrap_content"
             android:layout_weight="1" />
 
         <TextView
             android:id="@+id/tvTemperature"
-            android:layout_width="60dp"
+            android:layout_width="80dp"
             android:layout_height="40dp"
             android:text="10 °C"
             android:textSize="20sp"
@@ -98,26 +116,10 @@
 
         <TextView
             android:id="@+id/tvCityName"
-            android:layout_width="50dp"
-            android:layout_height="30dp"
+            android:layout_width="100dp"
+            android:layout_height="40dp"
             android:text="Paris"
             android:textSize="16sp" />
-
-        <TextView
-            android:id="@+id/tvTemperatureMax"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:text="10°C"
-            android:textSize="16sp"
-            android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/tvTemperatureMin"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:text="10 °C"
-            android:textSize="16sp"
-            android:textStyle="bold" />
 
     </LinearLayout>
 
@@ -126,6 +128,19 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tvTemperatureMin"
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+        <TextView
+            android:id="@+id/tvTemperatureMax"
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:textSize="16sp"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/tvPressure"
@@ -149,32 +164,12 @@
             android:textStyle="bold" />
 
         <TextView
-            android:id="@+id/tvDeg"
-            android:layout_width="match_parent"
-            android:layout_height="20dp"
-            android:textSize="16sp"
-            android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/tvAll"
-            android:layout_width="match_parent"
-            android:layout_height="20dp"
-            android:textSize="16sp"
-            android:textStyle="bold" />
-
-        <TextView
             android:id="@+id/tvVisibility"
             android:layout_width="match_parent"
             android:layout_height="20dp"
             android:textSize="16sp"
             android:textStyle="bold" />
 
-        <TextView
-            android:id="@+id/tvGust"
-            android:layout_width="match_parent"
-            android:layout_height="20dp"
-            android:textSize="16sp"
-            android:textStyle="bold" />
     </LinearLayout>
 
 </LinearLayout>
