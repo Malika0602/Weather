@@ -1,21 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#F4F4F4"
+    android:orientation="vertical"
     android:padding="16dp"
     tools:context=".MainActivity">
 
     <EditText
         android:id="@+id/editCity"
-        android:layout_width="0dp"
-        android:layout_height="45dp"
+        android:layout_width="376dp"
+        android:layout_height="43dp"
         android:layout_marginEnd="8dp"
         android:background="@color/white"
         android:ems="10"
-        android:hint="City name here"
+        android:hint="City name here "
         android:inputType="textPersonName"
         android:paddingLeft="10dp"
         app:layout_constraintEnd_toStartOf="@+id/btnSearch"
@@ -25,17 +26,43 @@
 
     <Button
         android:id="@+id/btnSearch"
-        android:layout_width="0dp"
-        android:layout_height="45dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:background="@color/purple_500"
         android:text="Search"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <Spinner
+        android:id="@+id/spinner"
+        android:layout_width="match_parent"
+        android:layout_height="36dp" />
+
+    <EditText
+        android:id="@+id/propertiesEditText"
+        android:layout_width="379dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="20dp"
+        android:ems="10"
+        android:hint="Properties"
+        android:inputType="textPersonName"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.047"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/spinner" />
+
+    <Button
+        android:id="@+id/btnOK"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="scheduleNotification"
+        android:text="OK" />
+
     <LinearLayout
         android:id="@+id/layoutWeather"
-        android:layout_width="407dp"
-        android:layout_height="480dp"
+        android:layout_width="match_parent"
+        android:layout_height="203dp"
         android:layout_marginTop="8dp"
         android:layout_marginBottom="32dp"
         android:gravity="center"
@@ -50,67 +77,104 @@
 
         <ImageView
             android:id="@+id/imageWeather"
-            android:layout_width="180dp"
-            android:layout_height="159dp"
+            android:layout_width="62dp"
+            android:layout_height="53dp"
             android:layout_marginRight="10dp"
-            android:scaleType="centerCrop"
             app:srcCompat="@drawable/cloud" />
 
-        <LinearLayout
-            android:id="@+id/linearLayout"
+        <TextView
+            android:id="@+id/tvDescription"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_weight="1" />
 
-            <TextView
-                android:id="@+id/tvTemperature"
-                android:layout_width="80dp"
-                android:layout_height="57dp"
-                android:text="10 °C"
-                android:textSize="24sp"
-                android:textStyle="bold" />
+        <TextView
+            android:id="@+id/tvTemperature"
+            android:layout_width="60dp"
+            android:layout_height="40dp"
+            android:text="10 °C"
+            android:textSize="20sp"
+            android:textStyle="bold" />
 
-            <TextView
-                android:id="@+id/tvCityName"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Paris"
-                android:textSize="16sp" />
-        </LinearLayout>
+        <TextView
+            android:id="@+id/tvCityName"
+            android:layout_width="50dp"
+            android:layout_height="30dp"
+            android:text="Paris"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/tvTemperatureMax"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:text="10°C"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tvTemperatureMin"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:text="10 °C"
+            android:textSize="16sp"
+            android:textStyle="bold" />
 
     </LinearLayout>
 
-    <Spinner
-        android:id="@+id/spinner"
-        android:layout_width="360dp"
-        android:layout_height="39dp"
-        android:layout_marginTop="8dp"
-        android:layout_weight="1"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editCity" />
+    <LinearLayout
+        android:id="@+id/layoutWeather_"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-    <EditText
-        android:id="@+id/editTextTextPersonName3"
-        android:layout_width="270dp"
-        android:layout_height="45dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="20dp"
-        android:ems="10"
-        android:hint="Proprites"
-        android:inputType="textPersonName"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.047"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/spinner" />
+        <TextView
+            android:id="@+id/tvPressure"
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:textSize="16sp"
+            android:textStyle="bold" />
 
-    <Button
-        android:id="@+id/buttonOk"
-        android:layout_width="0dp"
-        android:layout_height="45dp"
-        android:layout_marginBottom="3dp"
-        android:text="OK"
-        app:layout_constraintBottom_toTopOf="@+id/layoutWeather"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/editTextTextPersonName3" />
+        <TextView
+            android:id="@+id/tvHumidity"
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:textSize="16sp"
+            android:textStyle="bold" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <TextView
+            android:id="@+id/tvSpeed"
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tvDeg"
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tvAll"
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tvVisibility"
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tvGust"
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+</LinearLayout>
