@@ -14,6 +14,9 @@ import android.widget.*
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import com.ndroid.weatherapp2.datatypes.AlertType
+import com.ndroid.weatherapp2.datatypes.WeatherCondition
+import com.ndroid.weatherapp2.datatypes.date.DateType
 import com.squareup.picasso.Picasso
 import retrofit2.Call
 import retrofit2.Callback
@@ -104,6 +107,8 @@ class MainActivity : AppCompatActivity() {
                     tvHumidity.text = "Humidity: ${result?.main?.humidity}"
                     tvSpeed.text = "Speed: ${result?.wind?.speed}"
                     tvDescription.text = "${result?.weather?.get(0)?.description}"
+                    print(WeatherCondition.CLOUDY.toString()+WeatherCondition.RAINY.toString()+WeatherCondition.SUNNY+WeatherCondition.SNOWY+
+                            WeatherCondition.WINDY.toString())
                     tvCityName.text = result?.name
                     tvVisibility.text = "Visibility: ${result?.visibility}"
 
@@ -125,7 +130,7 @@ class MainActivity : AppCompatActivity() {
     @RequiresApi(Build.VERSION_CODES.M)
     fun scheduleNotification(view:View)
     {
-        Toast.makeText(this@MainActivity, "Its toast!", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this@MainActivity, "No Alert", Toast.LENGTH_SHORT).show();
         val intent = Intent(applicationContext, Notification::class.java)
 
         val pendingIntent = PendingIntent.getBroadcast(
@@ -135,7 +140,7 @@ class MainActivity : AppCompatActivity() {
             PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
         )
 
-        if(propertiesEditText.text.toString() < tvTemperature.text.toString() && alert.text.toString() == "HOT"){
+        if(propertiesEditText.text.toString() < tvTemperature.text.toString() && alert.text.toString() == "MAX"){
             val alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
             val time = 5
             alarmManager.setExactAndAllowWhileIdle(
@@ -143,9 +148,9 @@ class MainActivity : AppCompatActivity() {
                 time.toLong(),
                 pendingIntent
             )
-            showAlert(tvCityName.text.toString(), "Too Hot")
+            showAlert(tvCityName.text.toString(), AlertType.TEMPERATURE_EXCEEDS_HOT.toString())
         }
-        if(propertiesEditText.text.toString() > tvTemperature.text.toString() && alert.text.toString() == "COLD"){
+        if(propertiesEditText.text.toString() > tvTemperature.text.toString() && alert.text.toString() == "MIN"){
             val alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
             val time = 5
             alarmManager.setExactAndAllowWhileIdle(
@@ -153,7 +158,7 @@ class MainActivity : AppCompatActivity() {
                 time.toLong(),
                 pendingIntent
             )
-            showAlert(tvCityName.text.toString(), "Too Cold")
+            showAlert(tvCityName.text.toString(), AlertType.TEMPERATURE_EXCEEDS_COLD.toString())
 
         }
         if(propertiesEditText.text.toString() <= tvHumidity.text.toString()&& alert.text.toString() == "Humidity"){
